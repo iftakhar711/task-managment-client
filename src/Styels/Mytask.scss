@@ -1,0 +1,27 @@
+.mytask {
+    display: grid;
+    background-color: rgb(221, 218, 210);
+    text-align: center;
+    margin: 2px;
+    width: 500px;
+    height: auto;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 8px;
+}
+
+.img {
+    width: 100px;
+    height: 100px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.icons {
+    display: flex;
+    padding: 4px;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 20px;
+    gap: 5px;
+}
