@@ -1,8 +1,19 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { AuthContext } from '../../Contexts/Authprovider';
 import '../../Styels/Navbar.scss'
 
 const Navbar = () => {
+
+    const { user, logout } = useContext(AuthContext)
+
+    const handleLogout = () => {
+        logout()
+            .then(toast.success('User logged out!'))
+            .catch(error => console.log(error))
+    }
+
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     return (
         <div class="px-4 py-5 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8">
@@ -63,17 +74,36 @@ const Navbar = () => {
                     </li>
 
                 </ul>
-                <ul class="flex items-center hidden space-x-8 lg:flex">
-                    <li>
-                        <Link
-                            to='/signup'
-                            class="inline-flex items-center justify-center h-12 px-6 font-medium tracking-wide text-black transition duration-200 rounded shadow-md bg-amber-300 hover:bg-deep-purple-accent-700 focus:shadow-outline focus:outline-none"
-                            title="Sign up"
-                        >
-                            Signup
-                        </Link>
-                    </li>
-                </ul>
+                {user?.email ? <>
+
+                    <ul class="flex items-center hidden space-x-8 lg:flex">
+                        <li>
+                            <Link
+                                onClick={handleLogout}
+                                class="inline-flex items-center justify-center h-12 px-6 font-medium tracking-wide text-black transition duration-200 rounded shadow-md bg-amber-300 hover:bg-deep-purple-accent-700 focus:shadow-outline focus:outline-none"
+                                title="logout"
+                            >
+                                Logout
+                            </Link>
+                        </li>
+                    </ul>
+
+                </> :
+                    <>
+                        <ul class="flex items-center hidden space-x-8 lg:flex">
+                            <li>
+                                <Link
+                                    to='/signup'
+                                    class="inline-flex items-center justify-center h-12 px-6 font-medium tracking-wide text-black transition duration-200 rounded shadow-md bg-amber-300 hover:bg-deep-purple-accent-700 focus:shadow-outline focus:outline-none"
+                                    title="Sign up"
+                                >
+                                    Signup
+                                </Link>
+                            </li>
+                        </ul>
+
+                    </>}
+
                 <div class="lg:hidden">
                     <button
                         aria-label="Open Menu"

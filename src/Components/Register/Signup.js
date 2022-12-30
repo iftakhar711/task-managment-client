@@ -1,7 +1,42 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useContext } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { AuthContext } from '../../Contexts/Authprovider';
 
 const Signup = () => {
+    const { createUser, updateUserProfile } = useContext(AuthContext)
+
+    const navigate = useNavigate()
+    const location = useLocation()
+    const from = location.state?.from?.pathname || '/'
+
+
+    const registerUser = event => {
+        event.preventDefault()
+
+        const name = event.target.name.value
+        const email = event.target.email.value
+        const password = event.target.password.value
+
+        //1. Create new account
+        createUser(email, password)
+            .then(result => {
+                console.log(result.user)
+
+                //2. Update Name
+                updateUserProfile(name)
+                    .then(
+                        toast.success('user created succesfully'),
+                        navigate(from, { replace: true })
+                    )
+                    .catch(err => toast.error(err))
+            })
+            .catch(error =>
+                toast.error(error.message)
+            )
+
+    }
+
     return (
         <div>
             <div className='flex justify-center items-center pt-8'>
@@ -10,7 +45,7 @@ const Signup = () => {
                         <h1 className='my-3 text-4xl font-bold'>Register</h1>
                     </div>
                     <form
-                        // onSubmit={registerUser}
+                        onSubmit={registerUser}
                         noValidate=''
                         action=''
                         className='space-y-12 ng-untouched ng-pristine ng-valid'

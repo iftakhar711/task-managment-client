@@ -13,7 +13,7 @@ const Addtask = () => {
         }
 
         //post product data
-        fetch('http://localhost:5000/tasks', {
+        fetch('https://task-app-server-side-ebon.vercel.app/tasks', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
